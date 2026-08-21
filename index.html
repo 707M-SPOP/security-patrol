@@ -104,6 +104,34 @@
       margin-top: 10px;
       display: none;
     }
+
+    .report {
+      background: #f8f9fa;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 12px;
+    }
+
+    .report strong {
+      color: #17202a;
+    }
+
+    .empty {
+      text-align: center;
+      color: #777;
+      padding: 20px;
+    }
+
+    .danger {
+      color: #c62828;
+      font-weight: bold;
+    }
+
+    .good {
+      color: #2e7d32;
+      font-weight: bold;
+    }
   </style>
 </head>
 
@@ -221,14 +249,12 @@
 
       <div class="card">
 
-        <h2>رئيس وحدة العمليات</h2>
+        <h2>تقارير المشرفين</h2>
 
-        <p>
-          متابعة تقارير المشرفين ومراجعة الملاحظات.
-        </p>
+        <div id="unitReports"></div>
 
-        <button class="btn" onclick="alert('سيتم إضافة لوحة المتابعة في المرحلة التالية')">
-          عرض التقارير
+        <button class="btn" onclick="loadReports('unitReports')">
+          تحديث التقارير
         </button>
 
         <button class="btn back" onclick="goHome()">
@@ -245,14 +271,12 @@
 
       <div class="card">
 
-        <h2>غرفة العمليات الرئيسية</h2>
+        <h2>التقارير المركزية</h2>
 
-        <p>
-          المتابعة المركزية لجميع نقاط الحراسة والتقارير.
-        </p>
+        <div id="controlReports"></div>
 
-        <button class="btn" onclick="alert('سيتم إضافة لوحة غرفة العمليات في المرحلة التالية')">
-          لوحة المتابعة
+        <button class="btn" onclick="loadReports('controlReports')">
+          تحديث التقارير
         </button>
 
         <button class="btn back" onclick="goHome()">
@@ -276,6 +300,14 @@
       document.getElementById("control").classList.add("hidden");
 
       document.getElementById(page).classList.remove("hidden");
+
+      if (page === "unit") {
+        loadReports("unitReports");
+      }
+
+      if (page === "control") {
+        loadReports("controlReports");
+      }
     }
 
 
@@ -290,12 +322,24 @@
 
     function submitReport() {
 
-      const name = document.getElementById("supervisorName").value.trim();
-      const point = document.getElementById("guardPoint").value.trim();
-      const cones = document.getElementById("cones").value;
-      const uniform = document.getElementById("uniform").value;
-      const equipment = document.getElementById("equipment").value;
-      const notes = document.getElementById("notes").value.trim();
+      const name =
+        document.getElementById("supervisorName").value.trim();
+
+      const point =
+        document.getElementById("guardPoint").value.trim();
+
+      const cones =
+        document.getElementById("cones").value;
+
+      const uniform =
+        document.getElementById("uniform").value;
+
+      const equipment =
+        document.getElementById("equipment").value;
+
+      const notes =
+        document.getElementById("notes").value.trim();
+
 
       if (!name || !point || !cones || !uniform || !equipment || !notes) {
 
@@ -304,9 +348,141 @@
         return;
       }
 
+
+      const report = {
+
+        id: Date.now(),
+
+        supervisorName: name,
+
+        guardPoint: point,
+
+        cones: cones,
+
+        uniform: uniform,
+
+        equipment: equipment,
+
+        notes: notes,
+
+        date: new Date().toLocaleString("ar-EG")
+
+      };
+
+
+      let reports =
+        JSON.parse(localStorage.getItem("securityReports")) || [];
+
+
+      reports.push(report);
+
+
+      localStorage.setItem(
+        "securityReports",
+        JSON.stringify(reports)
+      );
+
+
       document.getElementById("success").style.display = "block";
 
       alert("تم إرسال التقرير بنجاح");
+
+      
+      document.getElementById("supervisorName").value = "";
+      document.getElementById("guardPoint").value = "";
+      document.getElementById("cones").value = "";
+      document.getElementById("uniform").value = "";
+      document.getElementById("equipment").value = "";
+      document.getElementById("notes").value = "";
+    }
+
+
+    function loadReports(containerId) {
+
+      const container =
+        document.getElementById(containerId);
+
+
+      let reports =
+        JSON.parse(localStorage.getItem("securityReports")) || [];
+
+
+      if (reports.length === 0) {
+
+        container.innerHTML =
+          '<div class="empty">لا توجد تقارير حتى الآن</div>';
+
+        return;
+      }
+
+
+      reports.sort((a, b) => b.id - a.id);
+
+
+      container.innerHTML = "";
+
+
+      reports.forEach(report => {
+
+        const div = document.createElement("div");
+
+        div.className = "report";
+
+
+        div.innerHTML = `
+
+          <div>
+            <strong>اسم المشرف:</strong>
+            ${escapeHTML(report.supervisorName)}
+          </div>
+
+          <div>
+            <strong>نقطة الحراسة:</strong>
+            ${escapeHTML(report.guardPoint)}
+          </div>
+
+          <div>
+            <strong>حالة الأقماع:</strong>
+            ${escapeHTML(report.cones)}
+          </div>
+
+          <div>
+            <strong>حالة الزي:</strong>
+            ${escapeHTML(report.uniform)}
+          </div>
+
+          <div>
+            <strong>حالة التجهيزات:</strong>
+            ${escapeHTML(report.equipment)}
+          </div>
+
+          <div>
+            <strong>الملاحظات:</strong>
+            ${escapeHTML(report.notes)}
+          </div>
+
+          <div>
+            <strong>التاريخ والوقت:</strong>
+            ${escapeHTML(report.date)}
+          </div>
+
+        `;
+
+
+        container.appendChild(div);
+
+      });
+
+    }
+
+
+    function escapeHTML(text) {
+
+      const div = document.createElement("div");
+
+      div.textContent = text;
+
+      return div.innerHTML;
 
     }
 
