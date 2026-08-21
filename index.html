@@ -6,6 +6,10 @@
   <title>نظام التفتيش الميداني</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -20,9 +24,19 @@
       text-align: center;
     }
 
+    .header h1 {
+      margin: 0 0 8px;
+      font-size: 24px;
+    }
+
+    .header p {
+      margin: 0;
+      opacity: .9;
+    }
+
     .container {
       padding: 20px;
-      max-width: 600px;
+      max-width: 650px;
       margin: auto;
     }
 
@@ -34,24 +48,118 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
-    .card h2 {
+    .role-card {
+      cursor: pointer;
+      transition: .2s;
+      border-right: 5px solid #12355b;
+    }
+
+    .role-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .role-card h2 {
       margin-top: 0;
+      color: #12355b;
     }
 
     button {
       width: 100%;
+      border: none;
+      border-radius: 10px;
       padding: 14px;
       margin-top: 10px;
-      border: none;
-      border-radius: 8px;
-      background: #12355b;
-      color: white;
       font-size: 16px;
       cursor: pointer;
+      background: #12355b;
+      color: white;
     }
 
     button:hover {
-      background: #0d2945;
+      opacity: .9;
+    }
+
+    .secondary {
+      background: #e9eef3;
+      color: #12355b;
+    }
+
+    .danger {
+      background: #b3261e;
+    }
+
+    .success {
+      background: #197a45;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .section-title {
+      color: #12355b;
+      margin-top: 0;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .item {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 10px;
+      background: #fafafa;
+    }
+
+    .item strong {
+      color: #12355b;
+    }
+
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 10px 0;
+      background: #f7f7f7;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .check-row input {
+      width: auto;
+      margin: 0;
+    }
+
+    .back {
+      margin-bottom: 15px;
+    }
+
+    .status {
+      padding: 10px;
+      border-radius: 8px;
+      background: #eef6ff;
+      color: #12355b;
+      margin-bottom: 15px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #777;
+      font-size: 13px;
     }
   </style>
 </head>
@@ -60,36 +168,355 @@
 
   <div class="header">
     <h1>نظام التفتيش الميداني</h1>
-    <p>Field Inspection System</p>
+    <p>نظام متابعة وتفتيش نقاط الحراسة</p>
   </div>
 
   <div class="container">
 
-    <div class="card">
-      <h2>المشرف</h2>
-      <p>تسجيل وتنفيذ جولات التفتيش الميداني.</p>
-      <button onclick="alert('قسم المشرف')">
-        دخول المشرف
-      </button>
+    <!-- الصفحة الرئيسية -->
+    <div id="home">
+
+      <div class="card">
+        <h2 class="section-title">اختيار المستخدم</h2>
+        <p>اختر نوع المستخدم للدخول إلى النظام</p>
+      </div>
+
+      <div class="card role-card" onclick="openSupervisor()">
+        <h2>👮 المشرف</h2>
+        <p>إدارة نقاط الحراسة ومتابعة أعمال التفتيش.</p>
+      </div>
+
+      <div class="card role-card" onclick="openOperationsHead()">
+        <h2>📋 رئيس وحدة العمليات</h2>
+        <p>متابعة أعمال المرور والتقارير الخاصة بالوحدة.</p>
+      </div>
+
+      <div class="card role-card" onclick="openMainOperations()">
+        <h2>🏢 غرفة العمليات الرئيسية</h2>
+        <p>المتابعة المركزية لجميع أعمال التفتيش.</p>
+      </div>
+
     </div>
 
-    <div class="card">
-      <h2>رئيس وحدة العمليات</h2>
-      <p>متابعة الجولات والتقارير والملاحظات.</p>
-      <button onclick="alert('قسم رئيس وحدة العمليات')">
-        دخول رئيس وحدة العمليات
-      </button>
+
+    <!-- قسم المشرف -->
+    <div id="supervisor" class="hidden">
+
+      <button class="secondary back" onclick="goHome()">← العودة للرئيسية</button>
+
+      <div class="card">
+        <h2 class="section-title">قسم المشرف</h2>
+        <div class="status">
+          صلاحيات المشرف
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📍 نقاط الحراسة</h3>
+        <p>إضافة ومتابعة نقاط الحراسة.</p>
+        <button onclick="showGuardPoints()">فتح نقاط الحراسة</button>
+      </div>
+
+      <div class="card">
+        <h3>📝 المشتملات</h3>
+        <p>تحديد العناصر التي يجب فحصها أثناء المرور.</p>
+        <button onclick="showItems()">إدارة المشتملات</button>
+      </div>
+
+      <div class="card">
+        <h3>📊 تقارير المرور</h3>
+        <p>عرض نتائج عمليات المرور والتفتيش.</p>
+        <button onclick="showReports()">عرض التقارير</button>
+      </div>
+
     </div>
 
-    <div class="card">
-      <h2>غرفة العمليات الرئيسية</h2>
-      <p>متابعة جميع الوحدات والحالات والتقارير.</p>
-      <button onclick="alert('غرفة العمليات الرئيسية')">
-        دخول غرفة العمليات
-      </button>
+
+    <!-- نقاط الحراسة -->
+    <div id="guardPoints" class="hidden">
+
+      <button class="secondary back" onclick="openSupervisor()">← العودة للمشرف</button>
+
+      <div class="card">
+        <h2 class="section-title">نقاط الحراسة</h2>
+
+        <label>اسم نقطة الحراسة</label>
+        <input id="pointName" type="text" placeholder="مثال: البوابة الرئيسية">
+
+        <label>الموقع</label>
+        <input id="pointLocation" type="text" placeholder="مثال: المدخل الرئيسي">
+
+        <button class="success" onclick="addPoint()">+ إضافة نقطة</button>
+      </div>
+
+      <div class="card">
+        <h3>النقاط المسجلة</h3>
+        <div id="pointsList"></div>
+      </div>
+
+    </div>
+
+
+    <!-- المشتملات -->
+    <div id="items" class="hidden">
+
+      <button class="secondary back" onclick="openSupervisor()">← العودة للمشرف</button>
+
+      <div class="card">
+        <h2 class="section-title">مشتملات نقطة الحراسة</h2>
+
+        <p>حدد العناصر التي يجب على القائم بالمرور فحصها.</p>
+
+        <div class="check-row">
+          <input type="checkbox" checked>
+          <span>حالة الأقماع المرورية</span>
+        </div>
+
+        <div class="check-row">
+          <input type="checkbox" checked>
+          <span>حالة الزي الرسمي</span>
+        </div>
+
+        <div class="check-row">
+          <input type="checkbox" checked>
+          <span>حالة التجهيزات</span>
+        </div>
+
+        <div class="check-row">
+          <input type="checkbox" checked>
+          <span>اليقظة والانتباه</span>
+        </div>
+
+        <div class="check-row">
+          <input type="checkbox" checked>
+          <span>دفتر الأحوال</span>
+        </div>
+
+        <div class="check-row">
+          <input type="checkbox" checked>
+          <span>نظافة وترتيب النقطة</span>
+        </div>
+
+        <label>مشتمل إضافي</label>
+        <input id="newItem" type="text" placeholder="اكتب المشتمل الجديد">
+
+        <button onclick="addItem()">+ إضافة مشتمل</button>
+
+        <div id="customItems"></div>
+      </div>
+
+    </div>
+
+
+    <!-- التقارير -->
+    <div id="reports" class="hidden">
+
+      <button class="secondary back" onclick="openSupervisor()">← العودة للمشرف</button>
+
+      <div class="card">
+        <h2 class="section-title">تقارير المرور</h2>
+
+        <div class="item">
+          <strong>لا توجد تقارير حتى الآن</strong>
+          <p>ستظهر نتائج المرور هنا بعد تسجيل أول عملية تفتيش.</p>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- رئيس وحدة العمليات -->
+    <div id="operationsHead" class="hidden">
+
+      <button class="secondary back" onclick="goHome()">← العودة للرئيسية</button>
+
+      <div class="card">
+        <h2 class="section-title">رئيس وحدة العمليات</h2>
+
+        <div class="status">
+          سيتم إضافة لوحة متابعة العمليات هنا.
+        </div>
+
+        <button onclick="alert('سيتم تنفيذ هذه الوظيفة في المرحلة التالية')">
+          متابعة المرور
+        </button>
+
+        <button onclick="alert('سيتم تنفيذ هذه الوظيفة في المرحلة التالية')">
+          التقارير
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- غرفة العمليات الرئيسية -->
+    <div id="mainOperations" class="hidden">
+
+      <button class="secondary back" onclick="goHome()">← العودة للرئيسية</button>
+
+      <div class="card">
+        <h2 class="section-title">غرفة العمليات الرئيسية</h2>
+
+        <div class="status">
+          لوحة المتابعة المركزية
+        </div>
+
+        <button onclick="alert('سيتم تنفيذ هذه الوظيفة في المرحلة التالية')">
+          جميع نقاط الحراسة
+        </button>
+
+        <button onclick="alert('سيتم تنفيذ هذه الوظيفة في المرحلة التالية')">
+          جميع التقارير
+        </button>
+
+      </div>
+
     </div>
 
   </div>
+
+  <footer>
+    نظام التفتيش الميداني
+  </footer>
+
+
+<script>
+
+  let points = [];
+
+  function hideAll() {
+    document.getElementById("home").classList.add("hidden");
+    document.getElementById("supervisor").classList.add("hidden");
+    document.getElementById("guardPoints").classList.add("hidden");
+    document.getElementById("items").classList.add("hidden");
+    document.getElementById("reports").classList.add("hidden");
+    document.getElementById("operationsHead").classList.add("hidden");
+    document.getElementById("mainOperations").classList.add("hidden");
+  }
+
+  function goHome() {
+    hideAll();
+    document.getElementById("home").classList.remove("hidden");
+  }
+
+  function openSupervisor() {
+    hideAll();
+    document.getElementById("supervisor").classList.remove("hidden");
+  }
+
+  function openOperationsHead() {
+    hideAll();
+    document.getElementById("operationsHead").classList.remove("hidden");
+  }
+
+  function openMainOperations() {
+    hideAll();
+    document.getElementById("mainOperations").classList.remove("hidden");
+  }
+
+  function showGuardPoints() {
+    hideAll();
+    document.getElementById("guardPoints").classList.remove("hidden");
+    renderPoints();
+  }
+
+  function showItems() {
+    hideAll();
+    document.getElementById("items").classList.remove("hidden");
+  }
+
+  function showReports() {
+    hideAll();
+    document.getElementById("reports").classList.remove("hidden");
+  }
+
+  function addPoint() {
+
+    const name = document.getElementById("pointName").value.trim();
+    const location = document.getElementById("pointLocation").value.trim();
+
+    if (!name || !location) {
+      alert("من فضلك أدخل اسم النقطة والموقع");
+      return;
+    }
+
+    points.push({
+      name: name,
+      location: location
+    });
+
+    document.getElementById("pointName").value = "";
+    document.getElementById("pointLocation").value = "";
+
+    renderPoints();
+  }
+
+  function renderPoints() {
+
+    const list = document.getElementById("pointsList");
+
+    if (points.length === 0) {
+      list.innerHTML = "<p>لا توجد نقاط حراسة مضافة حتى الآن.</p>";
+      return;
+    }
+
+    list.innerHTML = "";
+
+    points.forEach((point, index) => {
+
+      const div = document.createElement("div");
+
+      div.className = "item";
+
+      div.innerHTML = `
+        <strong>${point.name}</strong>
+        <p>📍 ${point.location}</p>
+        <button class="danger" onclick="deletePoint(${index})">
+          حذف النقطة
+        </button>
+      `;
+
+      list.appendChild(div);
+
+    });
+  }
+
+  function deletePoint(index) {
+
+    if (confirm("هل أنت متأكد من حذف نقطة الحراسة؟")) {
+      points.splice(index, 1);
+      renderPoints();
+    }
+
+  }
+
+  function addItem() {
+
+    const input = document.getElementById("newItem");
+    const value = input.value.trim();
+
+    if (!value) {
+      alert("اكتب اسم المشتمل أولاً");
+      return;
+    }
+
+    const div = document.createElement("div");
+
+    div.className = "check-row";
+
+    div.innerHTML = `
+      <input type="checkbox" checked>
+      <span>${value}</span>
+    `;
+
+    document.getElementById("customItems").appendChild(div);
+
+    input.value = "";
+  }
+
+</script>
 
 </body>
 </html>
