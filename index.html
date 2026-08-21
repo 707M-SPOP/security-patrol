@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نظام التفتيش الميداني</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      color: #222;
+    }
+
+    .header {
+      background: #12355b;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .card h2 {
+      margin-top: 0;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #12355b;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0d2945;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <h1>نظام التفتيش الميداني</h1>
+    <p>Field Inspection System</p>
+  </div>
+
+  <div class="container">
+
+    <div class="card">
+      <h2>المشرف</h2>
+      <p>تسجيل وتنفيذ جولات التفتيش الميداني.</p>
+      <button onclick="alert('قسم المشرف')">
+        دخول المشرف
+      </button>
+    </div>
+
+    <div class="card">
+      <h2>رئيس وحدة العمليات</h2>
+      <p>متابعة الجولات والتقارير والملاحظات.</p>
+      <button onclick="alert('قسم رئيس وحدة العمليات')">
+        دخول رئيس وحدة العمليات
+      </button>
+    </div>
+
+    <div class="card">
+      <h2>غرفة العمليات الرئيسية</h2>
+      <p>متابعة جميع الوحدات والحالات والتقارير.</p>
+      <button onclick="alert('غرفة العمليات الرئيسية')">
+        دخول غرفة العمليات
+      </button>
+    </div>
+
+  </div>
+
+</body>
+</html>
