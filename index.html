@@ -214,3 +214,103 @@
       </div>
 
     </div>
+
+
+    <!-- رئيس وحدة العمليات -->
+    <div id="unit" class="hidden">
+
+      <div class="card">
+
+        <h2>رئيس وحدة العمليات</h2>
+
+        <p>
+          متابعة تقارير المشرفين ومراجعة الملاحظات.
+        </p>
+
+        <button class="btn" onclick="alert('سيتم إضافة لوحة المتابعة في المرحلة التالية')">
+          عرض التقارير
+        </button>
+
+        <button class="btn back" onclick="goHome()">
+          العودة
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- غرفة العمليات الرئيسية -->
+    <div id="control" class="hidden">
+
+      <div class="card">
+
+        <h2>غرفة العمليات الرئيسية</h2>
+
+        <p>
+          المتابعة المركزية لجميع نقاط الحراسة والتقارير.
+        </p>
+
+        <button class="btn" onclick="alert('سيتم إضافة لوحة غرفة العمليات في المرحلة التالية')">
+          لوحة المتابعة
+        </button>
+
+        <button class="btn back" onclick="goHome()">
+          العودة
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    function openPage(page) {
+
+      document.getElementById("home").classList.add("hidden");
+      document.getElementById("supervisor").classList.add("hidden");
+      document.getElementById("unit").classList.add("hidden");
+      document.getElementById("control").classList.add("hidden");
+
+      document.getElementById(page).classList.remove("hidden");
+    }
+
+
+    function goHome() {
+
+      document.getElementById("home").classList.remove("hidden");
+      document.getElementById("supervisor").classList.add("hidden");
+      document.getElementById("unit").classList.add("hidden");
+      document.getElementById("control").classList.add("hidden");
+    }
+
+
+    function submitReport() {
+
+      const name = document.getElementById("supervisorName").value.trim();
+      const point = document.getElementById("guardPoint").value.trim();
+      const cones = document.getElementById("cones").value;
+      const uniform = document.getElementById("uniform").value;
+      const equipment = document.getElementById("equipment").value;
+      const notes = document.getElementById("notes").value.trim();
+
+      if (!name || !point || !cones || !uniform || !equipment || !notes) {
+
+        alert("من فضلك أكمل جميع البيانات، والملاحظات إجبارية.");
+
+        return;
+      }
+
+      document.getElementById("success").style.display = "block";
+
+      alert("تم إرسال التقرير بنجاح");
+
+    }
+
+  </script>
+
+</body>
+</html>
